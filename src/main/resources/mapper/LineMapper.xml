@@ -13,20 +13,5 @@
         <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
         <result column="last_update_date" property="lastUpdateDate" jdbcType="DATE"/>
         <result column="attribute_category" property="attributeCategory" jdbcType="VARCHAR"/>
-        <result column="attribute1" property="attribute1" jdbcType="VARCHAR"/>
-        <result column="attribute2" property="attribute2" jdbcType="VARCHAR"/>
-        <result column="attribute3" property="attribute3" jdbcType="VARCHAR"/>
-        <result column="attribute4" property="attribute4" jdbcType="VARCHAR"/>
-        <result column="attribute5" property="attribute5" jdbcType="VARCHAR"/>
-        <result column="attribute6" property="attribute6" jdbcType="VARCHAR"/>
-        <result column="attribute7" property="attribute7" jdbcType="VARCHAR"/>
-        <result column="attribute8" property="attribute8" jdbcType="VARCHAR"/>
-        <result column="attribute9" property="attribute9" jdbcType="VARCHAR"/>
-        <result column="attribute10" property="attribute10" jdbcType="VARCHAR"/>
-        <result column="attribute11" property="attribute11" jdbcType="VARCHAR"/>
-        <result column="attribute12" property="attribute12" jdbcType="VARCHAR"/>
-        <result column="attribute13" property="attribute13" jdbcType="VARCHAR"/>
-        <result column="attribute14" property="attribute14" jdbcType="VARCHAR"/>
-        <result column="attribute15" property="attribute15" jdbcType="VARCHAR"/>
     </resultMap>
 </mapper>
