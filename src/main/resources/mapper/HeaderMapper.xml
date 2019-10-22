@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.study.infra.mapper.HeaderMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="org.hzero.study.domain.entity.Header">
+        <result column="id" property="id" jdbcType="DECIMAL"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="lineList" ofType="org.hzero.study.domain.entity.Line">
+            <!-- 定义这个集合中元素的封装规则 -->
+            <id column="line_id" property="lineId"/>
+            <result column="unit_price" property="unitPrice"/>
+            <result column="header_id" property="headerId"/>
+            <result column="line_name" property="lineName"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectHeaderDetails" parameterType="org.hzero.study.domain.entity.Header"
+            resultMap="BaseResultMap">
+         select
+            header.id,
+            header.price,
+            header.NAME,
+            line.unit_price,
+            line.line_name
+	     from order_header header
+	     left join order_line line on header.id=line.header_id
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.study.infra.mapper.Company25178LevelMapper">
+    <!-- 模糊查询公司级别 -->
+    <select id="queryCompanyLevelByCodeAndDescription" parameterType="org.hzero.study.api.controller.dto.Company25178LevelDto" resultType="org.hzero.study.domain.entity.Company25178Level">
+        <bind name="lang" value="@io.choerodon.mybatis.helper.LanguageHelper@language()"/>
+        select
+            level.company_level_id,level.company_level_code,level.enabled_flag,
+            level.object_version_number,
+            level_tl.description
+        from fnd_company_25178_level level
+        LEFT JOIN fnd_company_25178_level_tl level_tl ON level_tl.company_level_id = level.company_level_id
+        AND level_tl.lang = #{lang}
+        <where>
+            <if test="companyLevelCode != '' and companyLevelCode != null">
+                <bind name="companyLevelCodeLike" value="'%' + companyLevelCode + '%'" />
+                AND level.company_level_code LIKE #{companyLevelCodeLike}
+            </if>
+            <if test="description != '' and description != null">
+                <bind name="descriptionLike" value="'%' + description + '%'" />
+                AND level.description LIKE #{descriptionLike}
+            </if>
+        </where>
+    </select>
+</mapper>

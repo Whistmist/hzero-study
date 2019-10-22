@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.study.infra.mapper.Accounting25178EntityMapper">
+
+    <select id="queryAccountingEntityByconditions" parameterType="org.hzero.study.api.controller.dto.Accounting25178EntityDto" resultType="org.hzero.study.api.controller.dto.Accounting25178EntityDto" >
+        <bind name="lang" value="@io.choerodon.mybatis.helper.LanguageHelper@language()"/>
+        SELECT
+            entity.acc_entity_id,
+            entity.acc_entity_code,
+            entity_tl.acc_entity_name,
+            entity.functional_currency_code,
+            entity.pay_currency_code,
+            entity.default_country_id,
+            entity.default_set_of_book_id,
+            gc.currency_name,
+            gb.set_of_books_name,
+            entity.company_type_code,
+            entity.start_date_active,
+            entity.end_date_active
+        FROM
+            gld_accounting_25178_entity entity
+            LEFT JOIN gld_accounting_25178_entity_tl entity_tl ON ( entity_tl.acc_entity_name = entity.acc_entity_name AND entity_tl.lang = #{lang} )
+            LEFT JOIN (
+                        SELECT currency.currency_code,currency_tl.currency_name FROM gld_25178_currency currency
+                        LEFT JOIN gld_25178_currency_tl currency_tl ON ( currency_tl.currency_name = currency.currency_name AND currency_tl.lang = #{lang} )
+            ) gc ON entity.pay_currency_code = gc.currency_code
+            LEFT JOIN (
+                        SELECT book.set_of_books_id, book_tl.set_of_books_name  FROM gld_set_of_25178_book book
+                        LEFT JOIN gld_set_of_25178_book_tl book_tl ON ( book_tl.set_of_books_name = book.set_of_books_name AND book_tl.lang = #{lang} )
+            ) gb ON entity.default_set_of_book_id = gb.set_of_books_id
+        WHERE
+        1 = 1
+        <if test="accEntityCode != null and accEntityCode != ''">
+            and acc_entity_code like CONCAT('%',#{accEntityCode},'%')
+        </if>
+        <if test="accEntityName != null and accEntityName != ''">
+            and entity_tl.acc_entity_name like CONCAT('%',#{accEntityName},'%')
+        </if>
+        <if test="setOfBooksName != null and setOfBooksName != ''">
+            and set_of_books_name like CONCAT('%',#{setOfBooksName},'%')
+        </if>
+    </select>
+
+
+    <select id="detailByAccEntityCode" parameterType="java.lang.String" resultType="org.hzero.study.api.controller.dto.Accounting25178EntityDto" >
+        <bind name="lang" value="@io.choerodon.mybatis.helper.LanguageHelper@language()"/>
+        SELECT
+        entity.acc_entity_id,
+        entity.acc_entity_code,
+        entity_tl.acc_entity_name,
+        entity.start_date_active,
+        entity.end_date_active,
+        entity.company_type_code,
+        entity.default_country_id,
+        entity.functional_currency_code,
+        entity.pay_currency_code,
+        entity.default_language,
+        entity.default_set_of_book_id,
+        entity.taxpayer_type_code,
+        entity.taxpayer_number,
+        entity.phone,
+        entity.address,
+        entity.bank_account,
+        gc.currency_name,
+        gb.set_of_books_name
+        FROM
+        gld_accounting_25178_entity entity
+        LEFT JOIN gld_accounting_25178_entity_tl entity_tl ON ( entity_tl.acc_entity_name = entity.acc_entity_name AND entity_tl.lang = #{lang} )
+        LEFT JOIN (
+        SELECT currency.currency_code,currency_tl.currency_name FROM gld_25178_currency currency
+        LEFT JOIN gld_25178_currency_tl currency_tl ON ( currency_tl.currency_name = currency.currency_name AND currency_tl.lang = #{lang} )
+        ) gc ON entity.pay_currency_code = gc.currency_code
+        LEFT JOIN (
+        SELECT book.set_of_books_id, book_tl.set_of_books_name  FROM gld_set_of_25178_book book
+        LEFT JOIN gld_set_of_25178_book_tl book_tl ON ( book_tl.set_of_books_name = book.set_of_books_name AND book_tl.lang = #{lang} )
+        ) gb ON entity.default_set_of_book_id = gb.set_of_books_id
+        WHERE
+        1 = 1
+        <if test="accEntityCode != null and accEntityCode != ''">
+            and acc_entity_code = #{accEntityCode}
+        </if>
+    </select>
+
+</mapper>

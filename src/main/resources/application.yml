@@ -1,0 +1,50 @@
+
+logging:
+  level:
+    org.hzero: ${LOG_LEVEL:debug}
+    org.apache.ibatis: ${LOG_LEVEL:debug}
+    io.choerodon: ${LOG_LEVEL:debug}
+    org.hzero.study.infra.feign: ${LOG_LEVEL:info}
+spring:
+  cloud:
+    inetutils:
+      ignored-interfaces[0]: lo
+      preferred-networks[0]: 10.212
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db.hzero.org:3306/hzero_study?useUnicode=true&characterEncoding=utf-8&useSSL=false}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+  redis:
+    host: redis.hzero.org
+    port: 6379
+    database: 1
+    jedis:
+      pool:
+        max-active: 50
+
+mybatis:
+  mapperLocations: classpath*:/mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+eureka:
+  instance:
+    preferIpAddress: ${EUREKA_INSTANCE_PREFER_IP_ADDRESS:true}
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+    metadata-map:
+      VERSION: 0.11.0
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://dev.hzero.org:8000/eureka}
+    registryFetchIntervalSeconds: 10
+    disable-delta: true
+hzero:
+  lov:
+    sql:
+      enabled: true
+  import:
+    init-table: true
+
+feign:
+  hystrix:
+    enabled: true
